@@ -1,0 +1,17 @@
+---
+
+- name: Create www directory
+  file:
+    state: directory
+    path: "/opt/www"
+    owner: vagrant
+    group: vagrant
+    mode: 0755
+
+- name: Deploy Simple Website Project
+  copy:
+    src: "../files/opt/www/index.html"
+    dest: "/opt/www/index.html"
+    owner: vagrant
+    group: vagrant
+    mode: 0644

@@ -1,0 +1,67 @@
+---
+
+- name: Install nginx package
+  apt:
+    name: nginx
+    state: present
+
+- name: Create SSL directory
+  file:
+    path: "{{ ssl_directory }}"
+    state: directory
+  when: with_ssl == true
+
+- name: Copy certificates files
+  copy:
+    src: "{{ item.name }}"
+    dest: "{{ item.name }}"
+    owner: root
+    group: root
+    mode: "{{ item.mode }}"
+  with_items:
+    - { name: "{{ ssl_cert }}", mode: 0444 }
+    - { name: "{{ ssl_cert_key }}", mode: 0400 }
+    - { name: "{{ ssl_password }}", mode: 0400 }
+  when: with_ssl == true
+
+- name: Delete the default directory and site
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - /var/www/html
+    - /etc/nginx/sites-available/default
+    - /etc/nginx/sites-enabled/default
+  notify: Restart nginx
+
+- name: Deploy virtual host needed
+  template:
+    src: "{{ item }}.j2"
+    dest: "/{{ item }}"
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - "etc/nginx/sites-available/simple-website"
+
+- name: Enable virtual host needed
+  file:
+    state: link
+    src: "/etc/nginx/sites-available/{{ item }}"
+    dest: /etc/nginx/sites-enabled/{{ item }}
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - simple-website
+  notify: Reload nginx
+
+- name: Copy the systemd unit file
+  template:
+    src: "lib/systemd/system/nginx.service"
+    dest: "/lib/systemd/system/nginx.service"
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - Reload systemd + Restart nginx
