@@ -49,13 +49,31 @@ nginx01                   running (virtualbox)
 
 #### Deployment
 
-To deploy the Nginx instance, you just have to run the Ansible playbook nginx.yml with this command :
+##### Over HTTP
+
+To deploy the Nginx instance over HTTP, you just have to run the Ansible playbook nginx_http.yml with this command :
 
 ```
-ansible-playbook nginx.yml
+ansible-playbook nginx_http.yml
 ```
 
 If all run like it is expected, you should access the simple website example : http://10.0.0.31/
+
+##### Over HTTPS
+
+To deploy the project over HTTPS, you must :
+
+* provide SSL Certificate (maybe with LetsEncrypt)
+* copy it to the file folder under : etc/ssl/RANDOMNAME
+* configure the variables in the playbook nginx_https.yml
+
+After that, you could run this command to deploy the example website over HTTPS :
+
+```
+ansible-playbook nginx_https.yml
+```
+
+If all run like it is expected, you should access the simple website example : https://10.0.0.31/
 
 #### Destroy
 

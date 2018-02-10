@@ -1,0 +1,14 @@
+---
+
+- hosts: all
+  remote_user: vagrant
+  become: yes
+  tasks:
+    - name: Deploy simple website project
+      import_tasks: roles/nginx/tasks/deploy_simple_project.yml
+
+- hosts: all
+  remote_user: vagrant
+  become: yes
+  roles:
+    - nginx

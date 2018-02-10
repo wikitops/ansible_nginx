@@ -1,0 +1,19 @@
+---
+
+- hosts: all
+  remote_user: vagrant
+  become: yes
+  tasks:
+    - name: Deploy simple website project
+      import_tasks: roles/nginx/tasks/deploy_simple_project.yml
+
+- hosts: all
+  remote_user: vagrant
+  become: yes
+  vars:
+    ssl_cert: "{{ ssl_directory }}/YOURNAME.cert"
+    ssl_cert_key: "{{ ssl_directory }}/YOURNAME.key"
+    ssl_password: "{{ ssl_directory }}/YOURNAME.pass"
+    with_ssl: true
+  roles:
+    - nginx
