@@ -19,7 +19,7 @@ Vagrant.configure("2") do |config|
   end
 
   # Provision
-  # config.vm.provision "shell", path: "provision.sh"
+  config.vm.provision "shell", path: "provision.sh"
   config.vm.provision "file", source: "~/.ssh/id_rsa.pub", destination: "/home/vagrant/.ssh/authorized_keys"
 
 end
