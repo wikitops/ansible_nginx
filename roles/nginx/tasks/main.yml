@@ -1,17 +1,17 @@
 ---
 
-- name: Install nginx package
-  apt:
+- name: NGINX | Install nginx package
+  package:
     name: nginx
     state: present
 
-- name: Create SSL directory
+- name: NGINX | Create SSL directory
   file:
     path: "{{ ssl_directory }}"
     state: directory
   when: with_ssl == true
 
-- name: Copy certificates files
+- name: NGINX | Copy certificates files
   copy:
     src: "{{ item.name }}"
     dest: "{{ item.name }}"
@@ -24,7 +24,7 @@
     - { name: "{{ ssl_password }}", mode: 0400 }
   when: with_ssl == true
 
-- name: Delete the default directory and site
+- name: NGINX | Delete the default directory and site
   file:
     path: "{{ item }}"
     state: absent
@@ -34,7 +34,7 @@
     - /etc/nginx/sites-enabled/default
   notify: Restart nginx
 
-- name: Deploy virtual host needed
+- name: NGINX | Deploy virtual host needed
   template:
     src: "{{ item }}.j2"
     dest: "/{{ item }}"
@@ -44,7 +44,7 @@
   with_items:
     - "etc/nginx/sites-available/simple-website"
 
-- name: Enable virtual host needed
+- name: NGINX | Enable virtual host needed
   file:
     state: link
     src: "/etc/nginx/sites-available/{{ item }}"
@@ -56,7 +56,7 @@
     - simple-website
   notify: Reload nginx
 
-- name: Copy the systemd unit file
+- name: NGINX | Copy the systemd unit file
   template:
     src: "lib/systemd/system/nginx.service"
     dest: "/lib/systemd/system/nginx.service"
