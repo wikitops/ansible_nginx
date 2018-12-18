@@ -1,0 +1,9 @@
+---
+
+- name: NGINX REDHAT | Add Nginx repository
+  yum_repository:
+    name: nginx
+    description: Nginx YUM repo
+    baseurl: http://nginx.org/packages/centos/{{ ansible_distribution_major_version }}/$basearch/
+    enabled: true
+    gpgcheck: 0

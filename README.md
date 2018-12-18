@@ -1,6 +1,6 @@
 # Ansible : Playbook Nginx
 
-The aim of this project is to deploy a simple Nginx instance on Vagrant with a simple example website project.
+The aim of this project is to deploy Nginx on Linux Vagrant instance.
 
 ## Getting Started
 
@@ -12,11 +12,7 @@ What things you need to run this Ansible playbook :
 
 *   [Vagrant](https://www.vagrantup.com/docs/installation/) must be installed on your computer
 *   Update the Vagrant file based on your computer (CPU, memory), if needed
-*   You must have download the ubuntu Xenial64 vagrant box :
-
-```bash
-$ vagrant box add https://app.vagrantup.com/ubuntu/boxes/xenial64
-```
+*   Update the operating system to deploy in the Vagrant file (default: Ubuntu)
 
 ### Usage
 
@@ -24,21 +20,15 @@ A good point with Vagrant is that you can create, update and destroy all archite
 
 Be aware that you need to be in the Vagrant directory to be able to run the commands.
 
-#### Build Environment
+#### Deployment
 
-Vagrant needs to init the project to run and build it :
+To deploy Nginx on Vagrant instances, just run this command :
 
 ```bash
 $ vagrant up
 ```
 
-After build, you can check which virtual machine Vagrant has created :
-
-```bash
-$ vagrant status
-```
-
-If everything run as expected, you should see something like this :
+If everything run as expected, you should be able to list the virtual machine created :
 
 ```bash
 $ vagrant status
@@ -48,33 +38,7 @@ Current machine states:
 nginx01                   running (virtualbox)
 ```
 
-#### Deployment
-
-##### Over HTTP
-
-To deploy the Nginx instance over HTTP, you just have to run the Ansible playbook nginx_http.yml with this command :
-
-```bash
-$ ansible-playbook nginx_http.yml
-```
-
-If everything run as expected, you should access the simple website example : http://10.0.0.31/
-
-##### Over HTTPS
-
-To deploy the project over HTTPS, you must :
-
-*   provide SSL Certificate (maybe with LetsEncrypt)
-*   copy it to the file folder under : etc/ssl/RANDOMNAME
-*   configure the variables in the playbook nginx_https.yml
-
-After that, you could run this command to deploy the example website over HTTPS :
-
-```bash
-$ ansible-playbook nginx_https.yml
-```
-
-If everything run as expected, you should access the simple website example : https://10.0.0.31/
+If everything run as expected, you should be able to deploy virtual host and manage it with Nginx.
 
 #### Destroy
 
@@ -82,6 +46,34 @@ To destroy the Vagrant resources created, just run this command :
 
 ```bash
 $ vagrant destroy
+```
+
+### How-To
+
+This section list some simple command to use and manage the playbook and the Vagrant hosts.
+
+#### Update with Ansible
+
+To update the Nginx configuration with Ansible, you just have to run the Ansible playbook nginx.yml with this command :
+
+```bash
+$ ansible-playbook nginx.yml
+```
+
+#### Update with Vagrant
+
+To update the Nginx configuration with Vagrant, you just have to run provisioning part of the Vagrant file :
+
+```bash
+$ vagrant provision
+```
+
+#### Connect to Vagrant instance
+
+To be able to connect to a Vagrant instance, you should use the CLI which is configured to automatically use the default SSH key :
+
+```bash
+$ vagrant ssh nginx01
 ```
 
 ## Author

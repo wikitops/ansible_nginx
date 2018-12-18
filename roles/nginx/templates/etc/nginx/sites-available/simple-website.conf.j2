@@ -1,14 +1,14 @@
 # {{ ansible_managed }}
 
 server {
-        {% if with_ssl %}
+        {% if nginx_with_ssl %}
 
         listen 443. default_server ssl;
         listen [::]:443 default_server ssl;
 
-        ssl_certificate     {{ ssl_cert }};
-        ssl_certificate_key {{ ssl_cert_key }};
-        ssl_password_file   {{ ssl_password }};
+        ssl_certificate     {{ nginx_ssl_cert }};
+        ssl_certificate_key {{ nginx_ssl_cert_key }};
+        ssl_password_file   {{ nginx_ssl_password }};
 
         {% else %}
 

@@ -1,0 +1,7 @@
+---
+
+- hosts: nginx
+  remote_user: vagrant
+  become: yes
+  roles:
+    - nginx

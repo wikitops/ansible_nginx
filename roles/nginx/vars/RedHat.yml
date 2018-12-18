@@ -1,0 +1,14 @@
+---
+
+###
+# REDHAT
+###
+
+# User:
+nginx_user: nginx
+
+# Pid
+nginx_pidfile: /var/run/nginx.pid
+
+# Vhost directory
+nginx_vhost_path: /etc/nginx/conf.d

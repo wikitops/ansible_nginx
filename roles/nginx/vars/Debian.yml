@@ -1,0 +1,14 @@
+---
+
+###
+# REDHAT
+###
+
+# User:
+nginx_user: www-data
+
+# Pid
+nginx_pidfile: /run/nginx.pid
+
+# Vhost directory
+nginx_vhost_path: /etc/nginx/sites-enabled
